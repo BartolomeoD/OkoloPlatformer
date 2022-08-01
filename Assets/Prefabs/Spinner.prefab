@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b70ecf8afcdb7b54fbd7f2ac8f2b6610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateDegInSecs: 720
+  rotateDegInSecs: 360
 --- !u!1001 &1021536943213882061
 PrefabInstance:
   m_ObjectHideFlags: 0

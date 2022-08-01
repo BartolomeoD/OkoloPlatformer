@@ -3,23 +3,24 @@ using UnityEngine;
 
 public class PlatformTrigger : MonoBehaviour
 {
-    public LiftScript LiftScript;
-    
+    public LiftScript liftScript;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (LiftScript == null)
+        if (liftScript == null)
             throw new ApplicationException("Lift script not set");
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-            LiftScript.PlayerEnterLift();
+            liftScript.PlayerEnterLift();
     }
+
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-            LiftScript.PlayerExitLift();
+            liftScript.PlayerExitLift();
     }
 }

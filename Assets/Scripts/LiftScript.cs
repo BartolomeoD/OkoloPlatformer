@@ -4,83 +4,95 @@ using UnityEngine;
 
 public class LiftScript : MonoBehaviour
 {
-    public Vector2 Destination;
+    public GameObject destination;
 
-    public GameObject Platform;
+    public GameObject platform;
 
-    public float Speed;
+    public float speed = 1;
 
-    public float TimeToWaitInDestination = 2;
+    public float timeToWaitInDestination = 0;
 
 
-    private LiftStates CurrentState = LiftStates.WaitPassenger;
+    private LiftStates _currentState = LiftStates.WaitPassenger;
 
-    private Vector2 InitialPosition;
+    private Vector2 _initialPosition;
+    private Vector2 _destination;
+    private int itemsInLiftCount = 0;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        if (Platform == null)
+        if (platform == null)
             throw new ApplicationException("Platform not set");
-        InitialPosition = Platform.transform.position;
+        
+        if (platform == null)
+            throw new ApplicationException("Destination not set");
+        
+        _initialPosition = platform.transform.position;
+        _destination = destination.transform.position;
     }
 
     private void OnDrawGizmos()
     {
-        if (Platform == null)
+        if (platform == null)
             return;
 
-        var position = (Vector2)Platform.transform.position;
+        var pos1 = (Vector2)platform.transform.position;
+        var pos2 = (Vector2)destination.transform.position;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(position, Destination);
+        Gizmos.DrawLine(pos1, pos2);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (CurrentState is LiftStates.WaitPassenger or LiftStates.WaitingInDestination)
+        if (_currentState is LiftStates.WaitPassenger or LiftStates.WaitingInDestination)
             return;
 
-        var currentDestination = CurrentState switch
+        var currentDestination = _currentState switch
         {
-            LiftStates.OnWayToDestination => Destination,
-            LiftStates.OnWayBack => InitialPosition,
+            LiftStates.OnWayToDestination => _destination,
+            LiftStates.OnWayBack => _initialPosition,
             _ => throw new ApplicationException("Unknown lift state")
         };
 
         var transformPosition =
-            Vector2.MoveTowards(Platform.transform.position, currentDestination, Speed * Time.deltaTime);
-        Platform.transform.position = transformPosition;
+            Vector2.MoveTowards(platform.transform.position, currentDestination, speed * Time.deltaTime);
+        platform.transform.position = transformPosition;
 
 
-        if ((Vector2)Platform.transform.position != currentDestination)
+        if ((Vector2)platform.transform.position != currentDestination)
             return;
 
-        if (CurrentState == LiftStates.OnWayToDestination)
+        if (_currentState == LiftStates.OnWayToDestination)
         {
-            CurrentState = LiftStates.WaitingInDestination;
+            _currentState = LiftStates.WaitingInDestination;
             Task.Run(async () =>
             {
-                await Task.Delay((int)(TimeToWaitInDestination * 1000));
-                CurrentState = LiftStates.OnWayBack;
+                await Task.Delay((int)(timeToWaitInDestination * 1000));
+                _currentState = LiftStates.OnWayBack;
             });
         }
-        else if (CurrentState == LiftStates.OnWayBack)
+        else if (_currentState == LiftStates.OnWayBack)
         {
-            CurrentState = LiftStates.WaitPassenger;
+            _currentState = LiftStates.WaitPassenger;
         }
     }
 
     public void PlayerEnterLift()
     {
-        CurrentState = LiftStates.OnWayToDestination;
+        itemsInLiftCount++;
+        if (itemsInLiftCount > 0)
+            _currentState = LiftStates.OnWayToDestination;
     }
 
     public void PlayerExitLift()
     {
-        if (CurrentState != LiftStates.WaitingInDestination)
-            CurrentState = LiftStates.OnWayBack;
+        itemsInLiftCount--;
+        
+        if (itemsInLiftCount < 1 && _currentState != LiftStates.WaitingInDestination)
+            _currentState = LiftStates.OnWayBack;
     }
 }
 
