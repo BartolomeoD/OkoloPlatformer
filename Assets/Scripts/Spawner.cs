@@ -38,19 +38,7 @@ public class Spawner : MonoBehaviour
         var randomIndex = objects[index];
 
         var obj = Instantiate(randomIndex, _spawnLocation.position, _spawnLocation.rotation, transform);
-        obj.GetComponent<SpriteRenderer>().color = GetRandomColor();
         _objectsInSpawner++;
-    }
-
-    private Color GetRandomColor()
-    {
-        return _random.Next(4) switch
-        {
-            0 => Color.green,
-            1 => Color.magenta,
-            2 => Color.red,
-            3 => Color.yellow,
-        };
     }
 
     private void OnTriggerExit2D(Collider2D other)

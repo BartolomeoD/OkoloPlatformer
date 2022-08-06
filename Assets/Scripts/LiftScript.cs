@@ -17,8 +17,9 @@ public class LiftScript : MonoBehaviour
 
     private Vector2 _initialPosition;
     private Vector2 _destination;
-    private int itemsInLiftCount = 0;
-
+    private int _itemsInLiftCount = 0;
+    private bool _changeStatusAsync = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -61,17 +62,18 @@ public class LiftScript : MonoBehaviour
             Vector2.MoveTowards(platform.transform.position, currentDestination, speed * Time.deltaTime);
         platform.transform.position = transformPosition;
 
-
         if ((Vector2)platform.transform.position != currentDestination)
             return;
 
         if (_currentState == LiftStates.OnWayToDestination)
         {
             _currentState = LiftStates.WaitingInDestination;
+            _changeStatusAsync = true;
             Task.Run(async () =>
             {
                 await Task.Delay((int)(timeToWaitInDestination * 1000));
-                _currentState = LiftStates.OnWayBack;
+                if (_changeStatusAsync)
+                    _currentState = LiftStates.OnWayBack;
             });
         }
         else if (_currentState == LiftStates.OnWayBack)
@@ -82,17 +84,20 @@ public class LiftScript : MonoBehaviour
 
     public void PlayerEnterLift()
     {
-        itemsInLiftCount++;
-        if (itemsInLiftCount > 0)
+        _itemsInLiftCount++;
+        if (_itemsInLiftCount > 0 && _currentState != LiftStates.WaitingInDestination)
             _currentState = LiftStates.OnWayToDestination;
     }
 
     public void PlayerExitLift()
     {
-        itemsInLiftCount--;
-        
-        if (itemsInLiftCount < 1 && _currentState != LiftStates.WaitingInDestination)
+        _itemsInLiftCount--;
+
+        if (_itemsInLiftCount < 1 && _currentState != LiftStates.WaitingInDestination)
+        {
+            _changeStatusAsync = false;
             _currentState = LiftStates.OnWayBack;
+        }
     }
 }
 
