@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3556854665360658145}
   - component: {fileID: 3556854665360658146}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lift
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 3556854665762737589}
   - component: {fileID: 3556854665762737588}
   - component: {fileID: 3556854665762737483}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,9 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   liftScript: {fileID: 3556854665360658146}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &8317939387736777228
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1137178963118182009}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Destination
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,6 +227,10 @@ PrefabInstance:
     - target: {fileID: 6193533977157801460, guid: 3b601054aa72e0c41bb38a4df3023a22, type: 3}
       propertyPath: m_Name
       value: Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193533977157801460, guid: 3b601054aa72e0c41bb38a4df3023a22, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b601054aa72e0c41bb38a4df3023a22, type: 3}

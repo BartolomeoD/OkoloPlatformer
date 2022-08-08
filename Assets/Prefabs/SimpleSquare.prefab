@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7156388922876668932}
   - component: {fileID: 7156388922876668929}
   - component: {fileID: 7199101637044873881}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SimpleSquare
   m_TagString: Player
   m_Icon: {fileID: 0}

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 874252135894686316}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DirectionTo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 874252136424957234}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DirectionFrom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 874252137582280428}
   - component: {fileID: 874252137582280429}
   - component: {fileID: 874252137582280430}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
