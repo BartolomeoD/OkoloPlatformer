@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 public class LiftScript : MonoBehaviour
@@ -10,15 +10,14 @@ public class LiftScript : MonoBehaviour
 
     public float speed = 1;
 
-    public float timeToWaitInDestination = 0;
+    public float timeToWaitInDestination;
 
 
     private LiftStates _currentState = LiftStates.WaitPassenger;
 
     private Vector2 _initialPosition;
     private Vector2 _destination;
-    private int _itemsInLiftCount = 0;
-    private bool _changeStatusAsync = false;
+    private int _itemsInLiftCount;
     
 
     // Start is called before the first frame update
@@ -68,18 +67,22 @@ public class LiftScript : MonoBehaviour
         if (_currentState == LiftStates.OnWayToDestination)
         {
             _currentState = LiftStates.WaitingInDestination;
-            _changeStatusAsync = true;
-            Task.Run(async () =>
-            {
-                await Task.Delay((int)(timeToWaitInDestination * 1000));
-                if (_changeStatusAsync)
-                    _currentState = LiftStates.OnWayBack;
-            });
+
+            StartCoroutine(TimerOnWayBackStatusChange(Time.time + timeToWaitInDestination));
         }
         else if (_currentState == LiftStates.OnWayBack)
         {
             _currentState = LiftStates.WaitPassenger;
         }
+    }
+
+    private IEnumerator TimerOnWayBackStatusChange(float changeAfter)
+    {
+        while (Time.time < changeAfter)
+            yield return null;
+
+        if (_currentState == LiftStates.WaitingInDestination)
+            _currentState = LiftStates.OnWayBack;
     }
 
     public void PlayerEnterLift()
@@ -92,12 +95,8 @@ public class LiftScript : MonoBehaviour
     public void PlayerExitLift()
     {
         _itemsInLiftCount--;
-
         if (_itemsInLiftCount < 1 && _currentState != LiftStates.WaitingInDestination)
-        {
-            _changeStatusAsync = false;
             _currentState = LiftStates.OnWayBack;
-        }
     }
 }
 

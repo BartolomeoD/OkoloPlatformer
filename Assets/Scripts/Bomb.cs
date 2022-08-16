@@ -11,9 +11,8 @@ public class Bomb : MonoBehaviour
 
     private DateTime _exposesAt;
 
-    private Boolean _exploded = false;
+    private Boolean _exploded;
 
-    // Start is called before the first frame update
     void Start()
     {
         _exposesAt = DateTime.Now.AddSeconds(timerInSec);
@@ -23,8 +22,7 @@ public class Bomb : MonoBehaviour
     {
         GizmosUtils.DrawCircle(transform.position, explosionRadius, Color.red);
     }
-
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         if (_exploded)

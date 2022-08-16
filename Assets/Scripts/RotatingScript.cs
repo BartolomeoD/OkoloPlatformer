@@ -4,17 +4,17 @@ public class RotatingScript : MonoBehaviour
 {
     public float rotateDegInSecs = 360;
 
-    private Rigidbody2D spinner;
+    private Rigidbody2D _spinner;
     
     // Start is called before the first frame update
     void Start()
     {
-        spinner = GetComponent<Rigidbody2D>();
+        _spinner = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        spinner.angularVelocity = -rotateDegInSecs;
+        _spinner.angularVelocity = -rotateDegInSecs;
     }
 }

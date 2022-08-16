@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
@@ -11,33 +11,30 @@ public class Spawner : MonoBehaviour
 
     private Transform _spawnLocation;
 
-    // seconds from UNIX epoch
-    private long? _nextSpawn;
+    private float? _nextSpawn;
     private TimeSpan _delay;
-    private int _objectsCount;
-    private Random _random;
-    private int _objectsInSpawner = 0;
+    private int _indexOfLastItem;
+    private int _objectsInSpawner;
 
     void Start()
     {
         _spawnLocation = spawnPoint.transform;
-        _objectsCount = objects.Length;
-        _random = new Random();
+        _indexOfLastItem = objects.Length - 1;
     }
 
     void FixedUpdate()
     {
-        var unixTimeSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
+        var unixTimeSeconds = Time.time;
         if (_nextSpawn > unixTimeSeconds || _objectsInSpawner >= maxCountOfObjects)
             return;
 
         _nextSpawn = unixTimeSeconds + delayBetweenSpawns;
 
 
-        var index = _random.Next(_objectsCount);
+        var index = Random.Range(0, _indexOfLastItem);
         var randomIndex = objects[index];
 
-        var obj = Instantiate(randomIndex, _spawnLocation.position, _spawnLocation.rotation, transform);
+        Instantiate(randomIndex, _spawnLocation.position, _spawnLocation.rotation, transform);
         _objectsInSpawner++;
     }
 

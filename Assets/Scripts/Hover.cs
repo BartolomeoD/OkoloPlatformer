@@ -54,7 +54,5 @@ public class Hover : MonoBehaviour
         var value = vector.magnitude * Mathf.Cos(Mathf.Deg2Rad * angle);
         var calculatedForce = _direction * power * (_directionValue - Mathf.Min(value, _directionValue));
         rigidbodyComponent.AddForce(calculatedForce, ForceMode2D.Force);
-        Debug.DrawLine(_initialPoint, vector + _initialPoint, Color.cyan);
-        Debug.DrawLine(objectPosition, calculatedForce + (Vector2)objectPosition, Color.blue);
     }
 }

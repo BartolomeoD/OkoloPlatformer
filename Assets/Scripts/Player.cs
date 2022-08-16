@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -14,7 +10,7 @@ public class Player : MonoBehaviour
 
 
     private Rigidbody2D _rigidBody;
-    private int _jumpCount = 0;
+    private int _jumpCount;
     private float _distanceFromCenterToBottomCollider;
 
     void Start()
@@ -24,8 +20,7 @@ public class Player : MonoBehaviour
         _distanceFromCenterToBottomCollider = col.size.y / 2 + col.offset.y;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         var horizontalInput = Input.GetAxis("Horizontal");
         var verticalInput = Input.GetAxis("Vertical");

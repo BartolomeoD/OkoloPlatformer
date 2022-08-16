@@ -13,7 +13,7 @@ namespace Utils
             Gizmos.color = color;
             while (angle <= 360)
             {
-                angle += 360 / corners;
+                angle += (float)360 / corners;
                 var nextPosition = center + (Vector2)(Quaternion.Euler(0, 0, angle) * startRotation);
                 Gizmos.DrawLine(lastPosition, nextPosition);
 
