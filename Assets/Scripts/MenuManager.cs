@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public Animator loadAnimation;
+    public Animator windowAnimation;
     private static readonly int MenuFadeStart = Animator.StringToHash("MenuFadeStart");
+    private static readonly int Modal = Animator.StringToHash("OpenModal");
 
     public void LoadFirstLevel()
     {
@@ -31,6 +33,11 @@ public class MenuManager : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+    }
+
+    public void OpenModal()
+    {
+        windowAnimation.SetTrigger(Modal);
     }
 
     private void LoadMenuScene(string sceneName)
